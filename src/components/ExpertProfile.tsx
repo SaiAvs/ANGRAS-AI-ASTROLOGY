@@ -39,7 +39,7 @@ export const ExpertProfile: React.FC = () => {
             <div className="md:col-span-8 space-y-5 text-center md:text-left">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                  Acharya Angras
+                 DR.ROCHAK TONDON
                 </h2>
                 <p className="text-xs sm:text-sm text-gray-400 mt-1">
                   25+ Years of Mastery in Vedic Numerology & Esoteric Sciences
