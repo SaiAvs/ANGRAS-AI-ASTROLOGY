@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Compass, Sparkles, Shield, Menu, X, Calendar, User, PhoneCall } from 'lucide-react';
-import angrasLogo from '../assets/images/angras_brand_logo_1783891962810.jpg';
+import angrasLogo from '../assets/images/angras logo.jpeg';
 
 interface NavbarProps {
   onOpenAdmin: () => void;
