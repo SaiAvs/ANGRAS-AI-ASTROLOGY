@@ -213,6 +213,81 @@ Return a valid JSON object with the following keys:
   }
 });
 
+app.post("/api/horoscope", async (req, res) => {
+  const { zodiacSign } = req.body;
+  if (!zodiacSign) {
+    return res.status(400).json({ error: "Zodiac sign is required" });
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  const currentDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  if (!apiKey) {
+    return res.json({
+      zodiacSign,
+      date: currentDate,
+      overview: `Today brings potent cosmic alignment for ${zodiacSign}. Your ruling celestial forces are heightening your intuition and creating new avenues for personal breakthroughs.`,
+      love: "Deep emotional resonance and soulful understanding illuminate your romantic connections today.",
+      career: "Trust your visionary instincts in professional matters; an unexpected opportunity for leadership or creative expression arises.",
+      luckyNumber: 7,
+      luckyColor: "Celestial Gold",
+      compatibility: "Scorpio"
+    });
+  }
+
+  try {
+    const ai = new GoogleGenAI({
+      apiKey,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build'
+        }
+      }
+    });
+
+    const prompt = `Act as an expert Vedic and Western astrologer. Generate a daily horoscope reading for zodiac sign: ${zodiacSign} for today (${currentDate}).
+Return a valid JSON object with the following keys:
+- zodiacSign (string)
+- date (string)
+- overview (string, 2-3 inspiring sentences)
+- love (string, 1-2 sentences on relationships/love)
+- career (string, 1-2 sentences on career/finances)
+- luckyNumber (number)
+- luckyColor (string)
+- compatibility (string, zodiac sign name)
+`;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json"
+      }
+    });
+
+    const text = response.text;
+    if (!text) {
+      throw new Error("No response from Gemini");
+    }
+
+    const parsed = JSON.parse(text);
+    res.json(parsed);
+
+  } catch (error: any) {
+    console.error("Horoscope error:", error);
+    res.json({
+      zodiacSign,
+      date: currentDate,
+      overview: `Today brings potent cosmic alignment for ${zodiacSign}. Your ruling celestial forces are heightening your intuition and creating new avenues for personal breakthroughs.`,
+      love: "Deep emotional resonance and soulful understanding illuminate your romantic connections today.",
+      career: "Trust your visionary instincts in professional matters; an unexpected opportunity for leadership or creative expression arises.",
+      luckyNumber: 7,
+      luckyColor: "Celestial Gold",
+      compatibility: "Scorpio"
+    });
+  }
+});
+
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({

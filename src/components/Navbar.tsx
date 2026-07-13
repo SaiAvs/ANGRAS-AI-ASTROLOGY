@@ -19,6 +19,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmin, activeTab, setActiv
   ];
 
   const handleNavClick = (id: string) => {
+    if (id === 'consultation') {
+      window.open(window.location.origin + '/?mode=consultation', '_blank');
+      setMobileMenuOpen(false);
+      return;
+    }
     setActiveTab(id);
     setMobileMenuOpen(false);
     const element = document.getElementById(id);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ExpertProfile } from './components/ExpertProfile';
@@ -20,20 +20,34 @@ export default function App() {
   const [consultationData, setConsultationData] = useState<{ name: string; dob: string; place: string } | null>(null);
   const [successBooking, setSuccessBooking] = useState<Booking | null>(null);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('mode') === 'consultation') {
+      const savedDetails = sessionStorage.getItem('angras_consultation_details');
+      if (savedDetails) {
+        try {
+          setConsultationData(JSON.parse(savedDetails));
+        } catch (e) {}
+      }
+      setActiveTab('consultation');
+      setTimeout(() => {
+        document.getElementById('consultation')?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+  }, []);
+
   const handleExplore = () => {
     setActiveTab('reading');
     document.getElementById('reading')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleBook = () => {
-    setActiveTab('consultation');
-    document.getElementById('consultation')?.scrollIntoView({ behavior: 'smooth' });
+    window.open(window.location.origin + '/?mode=consultation', '_blank');
   };
 
   const handleBookConsultationWithDetails = (details: { name: string; dob: string; place: string }) => {
-    setConsultationData(details);
-    setActiveTab('consultation');
-    document.getElementById('consultation')?.scrollIntoView({ behavior: 'smooth' });
+    sessionStorage.setItem('angras_consultation_details', JSON.stringify(details));
+    window.open(window.location.origin + '/?mode=consultation', '_blank');
   };
 
   const handleBookingSuccess = (booking: Booking) => {
@@ -49,6 +63,10 @@ export default function App() {
   };
 
   const handleNavClick = (id: string) => {
+    if (id === 'consultation') {
+      window.open(window.location.origin + '/?mode=consultation', '_blank');
+      return;
+    }
     setActiveTab(id);
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
