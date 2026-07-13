@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Compass, Sparkles, Shield, Menu, X, Calendar, User, PhoneCall } from 'lucide-react';
-import angrasLogo from '../assets/images/angras logo.jpeg';
+import angrasLogo from '../assets/images/angras-logo.jpeg';
 
 interface NavbarProps {
   onOpenAdmin: () => void;
@@ -42,7 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenAdmin, activeTab, setActiv
             className="flex items-center gap-2.5 cursor-pointer group"
           >
             <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-[#D4AF37]/50 shadow-md group-hover:scale-105 transition-transform">
-              <img src={angrasLogo} alt="Angras Logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              <img src={angras-logo} alt="Angras Logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             </div>
             <div>
               <span className="text-xl font-bold tracking-tight text-white font-sans">
