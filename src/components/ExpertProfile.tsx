@@ -1,7 +1,7 @@
 import React from 'react';
 import { Award, Star, Quote } from 'lucide-react';
-import { motion } from 'motion/react';
-import ownerPhoto from '../assets/images/master_numerologist_owner_1783891978780.jpg';
+import { motion } from 'motion/react';.
+import ownerPhoto from '../assets/images/astro image.jpeg';
 
 export const ExpertProfile: React.FC = () => {
   return (
