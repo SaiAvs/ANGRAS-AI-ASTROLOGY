@@ -1,6 +1,6 @@
 import React from 'react';
 import { Award, Star, Quote } from 'lucide-react';
-import { motion } from 'motion/react';.
+import { motion } from 'motion/react';
 import ownerPhoto from '../assets/images/astro-image.jpeg';
 
 export const ExpertProfile: React.FC = () => {
